@@ -25,6 +25,19 @@ function TugOfWarApp() {
     }
   }, [position])
 
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === 'ArrowLeft') {
+        pullLeft()
+      } else if (event.key === 'ArrowRight') {
+        pullRight()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [gameOver])
+
   const pullLeft = () => {
     if (!gameOver) {
       setPosition(prev => Math.max(prev - 2, -50))
@@ -162,7 +175,10 @@ function TugOfWarApp() {
           </div>
 
           <div className="text-center mt-6 text-gray-600">
-            <Text>Click the buttons to pull the rope! First to pull the marker to their goal wins!</Text>
+            <Text>Click the buttons or use arrow keys to pull the rope! First to pull the marker to their goal wins!</Text>
+            <div className="mt-2 text-sm">
+              <Text type="secondary">← Left Arrow = Pull Left | Right Arrow = Pull Right →</Text>
+            </div>
           </div>
         </Card>
       </div>
